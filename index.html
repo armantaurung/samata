@@ -17,12 +17,14 @@ import {
   Leaf,
   Calendar,
   MessageSquare,
-  Search
+  Search,
+  Globe
 } from 'lucide-react';
 
 /**
- * Samata Village Company Profile - Production Ready
- * Fitur: Responsive Design, SPA Navigation, High Contrast UI, WhatsApp Integration
+ * Samata Village Company Profile
+ * Lokasi: Samata, Gowa
+ * Fitur: Responsif, SPA, High Contrast
  */
 
 const App = () => {
@@ -66,14 +68,12 @@ const App = () => {
     }
   ];
 
-  // Listener untuk efek scroll pada navbar
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fungsi navigasi internal
   const navigateTo = (page, data = null) => {
     setActivePage(page);
     setSelectedProject(data);
@@ -102,7 +102,7 @@ const App = () => {
           </span>
         </div>
 
-        {/* Menu Desktop */}
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-8">
           {[
             { id: 'home', label: 'Beranda' },
@@ -133,7 +133,7 @@ const App = () => {
           </button>
         </div>
 
-        {/* Tombol Menu Mobile */}
+        {/* Mobile Toggle */}
         <div className="lg:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className={`p-2 rounded-lg transition-colors ${scrolled ? 'text-emerald-950 bg-gray-50' : 'text-white bg-black/20'}`}>
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -141,7 +141,7 @@ const App = () => {
         </div>
       </div>
 
-      {/* Overlay Menu Mobile/Tablet */}
+      {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="lg:hidden bg-white absolute top-full left-0 w-full shadow-2xl border-t border-gray-200 py-6 md:py-8 px-4 md:px-6 flex flex-col space-y-4 animate-fadeIn overflow-y-auto max-h-[80vh]">
           {['home', 'projects', 'management', 'news', 'contact'].map((item) => (
@@ -245,7 +245,7 @@ const App = () => {
           <h3 className="text-4xl md:text-6xl font-black text-gray-950 mb-16">Pilihan Unit Eksklusif</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
             {projectData.map((p) => (
-              <div key={p.id} className="group bg-gray-50 rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 flex flex-col hover:shadow-emerald-100 transition-all duration-500">
+              <div key={p.id} className="group bg-gray-50 rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 flex flex-col hover:shadow-emerald-100 transition-all duration-500">
                 <div className="h-64 md:h-80 overflow-hidden relative">
                   <img src={p.img} alt={p.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -416,11 +416,9 @@ const App = () => {
     </div>
   );
 
-  // --- Main Render Logic ---
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-emerald-700 selection:text-white antialiased overflow-x-hidden">
       <Navbar />
-      
       <main className="w-full">
         {activePage === 'home' && <HomePage />}
         {activePage === 'projects' && (
@@ -453,10 +451,7 @@ const App = () => {
         {activePage === 'news' && <NewsPage />}
         {activePage === 'contact' && <ContactPage />}
       </main>
-
       <Footer />
-
-      {/* Floating Call to Action */}
       <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 flex flex-col space-y-4">
         <a 
           href="https://wa.me/6285242603151" 
@@ -465,40 +460,26 @@ const App = () => {
           className="bg-emerald-600 text-white p-4 md:p-5 rounded-3xl shadow-[0_20px_50px_rgba(5,150,105,0.4)] hover:bg-emerald-500 hover:scale-110 transition-all group flex items-center border-2 border-white/20 active:scale-95 animate-bounce-slow"
         >
           <Phone size={28} className="md:w-8 md:h-8" />
-          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 font-black pl-0 group-hover:pl-4 text-sm md:text-xl uppercase tracking-widest">
+          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 font-black pl-0 group-hover:pl-4 text-sm md:text-xl uppercase tracking-widest">
             Chat Sales
           </span>
         </a>
       </div>
-
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap');
-        
-        body { 
-          font-family: 'Plus Jakarta Sans', sans-serif; 
-          scroll-behavior: smooth; 
-          overflow-x: hidden; 
-          width: 100%; 
-        }
-
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
         @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
         .animate-fadeIn { animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .animate-slideUp { animation: slideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .animate-slowZoom { animation: slowZoom 20s linear infinite alternate; }
         .animate-bounce-slow { animation: bounce-slow 4s ease-in-out infinite; }
-        
         ::selection { background-color: #065f46; color: white; }
-        
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #059669; border-radius: 10px; border: 3px solid #020617; }
-        
-        /* Grid Fix */
         .container { max-width: 100% !important; margin: 0 auto !important; }
         @media (min-width: 1024px) { .container { max-width: 1280px !important; } }
       `}} />
