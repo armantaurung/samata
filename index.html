@@ -18,14 +18,15 @@ import {
   Calendar,
   MessageSquare,
   Search,
-  Globe
+  Globe,
+  ArrowUp
 } from 'lucide-react';
 
 /**
- * Samata Village Company Profile
+ * Samata Village - Official Website
  * Lokasi: Samata, Gowa
- * Fitur: Responsif, SPA Navigation, Animasi Smooth, High Contrast UI
- * Deployment: Vercel Ready (Single File Component)
+ * Framework: React + Tailwind CSS
+ * Deployment: Vercel Optimized (Single File Component)
  */
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [formStatus, setFormStatus] = useState(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   // Data Proyek Terpusat
   const projectData = [
@@ -69,14 +71,24 @@ const App = () => {
     }
   ];
 
-  // Efek scroll untuk navbar transparan ke solid
+  // Scroll Listeners
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      setShowBackToTop(window.scrollY > 500);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Kunci scroll saat mobile menu terbuka
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isMenuOpen]);
 
   // Fungsi navigasi yang menutup menu mobile secara otomatis
   const navigateTo = (page, data = null) => {
@@ -93,7 +105,7 @@ const App = () => {
     setTimeout(() => setFormStatus('success'), 2000);
   };
 
-  // --- Sub-Components ---
+  // --- Components ---
 
   const Navbar = () => (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-xl py-3 border-b border-gray-100' : 'bg-transparent py-6'}`}>
@@ -157,7 +169,7 @@ const App = () => {
               <div className="bg-emerald-700 p-2 rounded-xl"><Home className="text-white w-6 h-6" /></div>
               <span className="text-2xl font-black text-emerald-950">Samata<span className="text-emerald-700">Village</span></span>
             </div>
-            <button onClick={() => setIsMenuOpen(false)} className="p-3 bg-gray-100 rounded-2xl text-gray-900"><X size={28} /></button>
+            <button onClick={() => setIsMenuOpen(false)} className="p-3 bg-gray-100 rounded-2xl text-gray-900 shadow-sm"><X size={28} /></button>
           </div>
           <div className="flex flex-col space-y-2">
             {[
@@ -228,7 +240,7 @@ const App = () => {
             <p className="text-gray-400 mb-8 font-bold">Dapatkan penawaran eksklusif dan update proyek langsung di email Anda.</p>
             <div className="flex bg-gray-900 p-2 rounded-2xl border border-gray-800 focus-within:border-emerald-600 transition-all shadow-inner">
               <input type="email" placeholder="Email Anda" className="bg-transparent border-none px-4 py-2 w-full focus:ring-0 text-white font-bold text-sm" />
-              <button className="bg-emerald-700 text-white p-3 rounded-xl hover:bg-emerald-600 transition-all shadow-xl active:scale-90"><ArrowRight size={20} /></button>
+              <button className="bg-emerald-700 text-white p-3 rounded-xl hover:bg-emerald-600 transition-all shadow-xl active:scale-90" aria-label="Subscribe"><ArrowRight size={20} /></button>
             </div>
           </div>
         </div>
@@ -240,11 +252,10 @@ const App = () => {
     </footer>
   );
 
-  // --- Main Views ---
+  // --- Views ---
 
   const HomePage = () => (
     <div className="animate-fadeIn">
-      {/* Hero Section dengan Animasi Zoom */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0 scale-110 animate-slowZoom">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-950/70 to-transparent z-10"></div>
@@ -272,7 +283,6 @@ const App = () => {
         </div>
       </section>
 
-      {/* Featured Grid Section */}
       <section className="py-32 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
@@ -370,7 +380,7 @@ const App = () => {
             <div key={i} className="group cursor-pointer">
               <div className="rounded-[3rem] overflow-hidden mb-10 h-72 md:h-96 border border-gray-100 shadow-xl group-hover:shadow-2xl transition-all relative">
                 <img src={news.img} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={news.title} />
-                <div className="absolute inset-0 bg-emerald-900/10 group-hover:bg-transparent transition-colors"></div>
+                <div className="absolute inset-0 bg-emerald-950/10 group-hover:bg-transparent transition-colors"></div>
               </div>
               <div className="flex items-center text-emerald-700 font-black text-xs md:text-sm mb-6 uppercase tracking-widest"><Calendar size={18} className="mr-3" /> {news.date}</div>
               <h4 className="text-3xl md:text-4xl font-black text-gray-950 leading-tight group-hover:text-emerald-700 transition-colors">{news.title}</h4>
@@ -452,13 +462,13 @@ const App = () => {
             <div key={i} className="bg-slate-50 p-10 rounded-[4rem] border border-gray-100 shadow-2xl group hover:bg-emerald-700 transition-all duration-500 hover:-translate-y-4">
               <div className="w-full aspect-square bg-gray-200 rounded-[3rem] mb-10 overflow-hidden relative shadow-inner group-hover:scale-105 transition-transform duration-700 border-4 border-white">
                 <img src={`https://i.pravatar.cc/400?u=samata${i}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={`Leadership ${i}`} />
-                <div className="absolute inset-0 bg-emerald-900/10 group-hover:bg-transparent transition-colors"></div>
+                <div className="absolute inset-0 bg-emerald-950/10 group-hover:bg-transparent transition-colors"></div>
               </div>
               <h4 className="text-3xl font-black text-gray-950 mb-3 group-hover:text-white transition-colors leading-none tracking-tighter">Direktur {i}</h4>
-              <p className="text-emerald-700 font-black text-[10px] uppercase tracking-[0.3em] group-hover:text-emerald-200 transition-colors">Executive Board Members</p>
+              <p className="text-emerald-700 font-black text-[10px] uppercase tracking-[0.3em] group-hover:text-emerald-200 transition-colors">Executive Board Member</p>
               <div className="mt-8 flex justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-500">
-                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white"><Instagram size={18} /></div>
-                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white"><Facebook size={18} /></div>
+                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white cursor-pointer"><Instagram size={18} /></div>
+                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white cursor-pointer"><Facebook size={18} /></div>
               </div>
             </div>
           ))}
@@ -467,7 +477,7 @@ const App = () => {
     </div>
   );
 
-  // --- Main Render Render Logic ---
+  // --- Main Render Logic ---
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-emerald-700 selection:text-white antialiased overflow-x-hidden">
       <Navbar />
@@ -510,7 +520,18 @@ const App = () => {
 
       <Footer />
 
-      {/* Modern Floating CTA Button */}
+      {/* Back To Top Button */}
+      {showBackToTop && (
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-32 right-6 md:right-12 z-[90] bg-white text-emerald-950 p-4 rounded-full shadow-2xl border border-gray-100 hover:bg-emerald-50 transition-all animate-fadeIn"
+          aria-label="Back to top"
+        >
+          <ArrowUp size={24} />
+        </button>
+      )}
+
+      {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 md:bottom-12 md:right-12 z-[100]">
         <a 
           href="https://wa.me/6285242603151" 
